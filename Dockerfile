@@ -13,17 +13,16 @@ RUN apk add --no-cache libc6-compat openssl
 FROM base AS deps
 WORKDIR /app
 
-# Copy package files
+# Copy package files and prisma config
 COPY package.json package-lock.json* ./
 COPY prisma ./prisma/
+COPY prisma.config.ts ./
 
 # Install dependencies
 RUN npm ci
 
-# Generate Prisma client (use placeholder URL - only format matters for generate)
-ENV DATABASE_URL="postgresql://user:pass@host:5432/db"
+# Generate Prisma client
 RUN npx prisma generate
-ENV DATABASE_URL=""
 
 # ===========================================
 # Builder Stage
@@ -36,7 +35,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Generate Prisma client (needed for build)
-ENV DATABASE_URL="postgresql://user:pass@host:5432/db"
 RUN npx prisma generate
 
 # Build arguments for build-time env vars (non-sensitive)
@@ -70,8 +68,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Copy Prisma files for migrations
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./prisma.config.ts
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 
 
 # Switch to non-root user
