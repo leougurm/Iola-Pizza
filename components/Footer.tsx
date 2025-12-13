@@ -1,6 +1,6 @@
 import React from 'react';
 import { Facebook, Instagram, Twitter, MapPin, Phone, Mail } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const Footer: React.FC = () => {
   return (
@@ -34,10 +34,10 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold text-lg mb-6 text-brand-yellow">Hızlı Linkler</h4>
             <ul className="space-y-3 text-gray-400 text-sm">
-              <li><Link to="/" className="hover:text-white transition-colors">Ana Sayfa</Link></li>
-              <li><Link to="/menu" className="hover:text-white transition-colors">Menü</Link></li>
-              <li><Link to="/hakkimizda" className="hover:text-white transition-colors">Hakkımızda</Link></li>
-              <li><Link to="/iletisim" className="hover:text-white transition-colors">İletişim</Link></li>
+              <li><Link href="/" className="hover:text-white transition-colors">Ana Sayfa</Link></li>
+              <li><Link href="/menu" className="hover:text-white transition-colors">Menü</Link></li>
+              <li><Link href="/hakkimizda" className="hover:text-white transition-colors">Hakkımızda</Link></li>
+              <li><Link href="/iletisim" className="hover:text-white transition-colors">İletişim</Link></li>
             </ul>
           </div>
 

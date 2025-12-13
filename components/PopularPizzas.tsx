@@ -1,7 +1,7 @@
 import React from 'react';
 import { MENU_ITEMS } from '../constants';
 import { ArrowRight, Star, Flame } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const PopularPizzas: React.FC = () => {
   // Select a few items to feature (e.g., items with ids '1', '4', '5')
@@ -43,7 +43,7 @@ const PopularPizzas: React.FC = () => {
                 <p className="text-gray-600 text-sm mb-6 line-clamp-2">{item.description}</p>
                 
                 <Link 
-                  to="/menu"
+                  href="/menu"
                   className="w-full bg-brand-dark text-white py-3 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-brand-red transition-colors"
                 >
                   Sipariş Ver <ArrowRight size={16} />
@@ -54,7 +54,7 @@ const PopularPizzas: React.FC = () => {
         </div>
         
         <div className="text-center mt-12">
-          <Link to="/menu" className="text-brand-dark font-bold border-b-2 border-brand-red hover:text-brand-red transition-colors">
+          <Link href="/menu" className="text-brand-dark font-bold border-b-2 border-brand-red hover:text-brand-red transition-colors">
             Tüm Menüyü Görüntüle
           </Link>
         </div>

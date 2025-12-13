@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const Hero: React.FC = () => {
   return (
@@ -36,7 +36,7 @@ const Hero: React.FC = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center sm:justify-start">
               <Link 
-                to="/menu"
+                href="/menu"
                 className="inline-flex items-center justify-center gap-2 bg-brand-red hover:bg-red-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg shadow-red-900/50 hover:scale-105"
               >
                 Menüyü İncele <ArrowRight size={20} />
