@@ -66,8 +66,9 @@ RUN chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Copy public folder if exists
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+# Copy public folder
+RUN mkdir -p ./public
+COPY --from=builder --chown=nextjs:nodejs /app/public/ ./public/
 
 # Copy Prisma files for migrations
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
