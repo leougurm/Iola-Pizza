@@ -20,8 +20,10 @@ COPY prisma ./prisma/
 # Install dependencies
 RUN npm ci
 
-# Generate Prisma client (use dummy URL - only format matters for generate)
-RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
+# Generate Prisma client (use placeholder URL - only format matters for generate)
+ENV DATABASE_URL="postgresql://user:pass@host:5432/db"
+RUN npx prisma generate
+ENV DATABASE_URL=""
 
 # ===========================================
 # Builder Stage
@@ -33,8 +35,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Generate Prisma client (needed for build - use dummy URL)
-RUN DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" npx prisma generate
+# Generate Prisma client (needed for build)
+ENV DATABASE_URL="postgresql://user:pass@host:5432/db"
+RUN npx prisma generate
 
 # Build arguments for build-time env vars (non-sensitive)
 ARG NEXT_TELEMETRY_DISABLED=1
