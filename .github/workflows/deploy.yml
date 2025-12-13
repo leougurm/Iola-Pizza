@@ -132,9 +132,9 @@ jobs:
             echo "=== Waiting for database ==="
             sleep 15
 
-            # Run Prisma db push to sync schema
+            # Run Prisma db push to sync schema using direct database URL
             echo "=== Syncing database schema ==="
-            docker-compose exec -T app prisma db push --skip-generate --accept-data-loss || echo "Schema sync skipped or failed"
+            docker-compose exec -T app sh -c "prisma db push --url=\"\$DATABASE_URL\" --skip-generate --accept-data-loss" || echo "Schema sync skipped or failed"
 
             # Verify deployment
             echo "=== Verifying deployment ==="

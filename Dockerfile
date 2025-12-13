@@ -69,9 +69,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Create public folder for uploads
 RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs ./public
 
-# Copy Prisma files for migrations
-COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
-COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./prisma.config.ts
+# Copy Prisma schema for migrations (NOT the config file - we use --url flag instead)
+COPY --from=builder --chown=nextjs:nodejs /app/prisma/schema.prisma ./prisma/schema.prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
 
