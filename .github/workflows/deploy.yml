@@ -86,13 +86,14 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           host: ${{ secrets.VULTR_HOST }}
           username: ${{ secrets.VULTR_USERNAME }}
           key: ${{ secrets.VULTR_SSH_KEY }}
-          envs: GITHUB_REPOSITORY_LOWERCASE,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,JWT_SECRET,GHCR_TOKEN
+          envs: GITHUB_REPOSITORY_LOWERCASE,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,POSTGRES_PORT,JWT_SECRET,GHCR_TOKEN
           script: |
             set -e
 
@@ -112,6 +113,7 @@ jobs:
             export POSTGRES_USER="$POSTGRES_USER"
             export POSTGRES_PASSWORD="$POSTGRES_PASSWORD"
             export POSTGRES_DB="$POSTGRES_DB"
+            export POSTGRES_PORT="$POSTGRES_PORT"
             export JWT_SECRET="$JWT_SECRET"
 
             # Pull the latest image
