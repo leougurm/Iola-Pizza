@@ -69,10 +69,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Create public folder for uploads
 RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs ./public
 
-# Copy Prisma files for migrations
-COPY --from=builder /app/prisma/schema.prisma ./prisma/schema.prisma
+# Copy Prisma files for migrations and seeding
+COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/package.json ./package.json
 
 # Fix ownership for all app files including prisma
 RUN chown -R nextjs:nodejs /app
@@ -80,8 +81,8 @@ RUN chown -R nextjs:nodejs /app
 # Switch to non-root user
 USER nextjs
 
-# Install Prisma CLI as nextjs user (after permissions are set)
-RUN npm install prisma dotenv
+# Install Prisma CLI and tsx for seeding (as nextjs user after permissions are set)
+RUN npm install prisma dotenv tsx
 
 # Expose port
 EXPOSE 3000
