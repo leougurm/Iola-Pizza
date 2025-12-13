@@ -1,7 +1,1 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
-  "/menu": "pages/menu.js",
-  "/api/foods": "pages/api/foods.js"
-}
+{"/_app":"pages/_app.js","/_error":"pages/_error.js","/_document":"pages/_document.js","/admin/dashboard":"pages/admin/dashboard.html","/admin/login":"pages/admin/login.html","/admin/orders":"pages/admin/orders.html","/admin/pizzas":"pages/admin/pizzas.html","/admin/pizzas/[id]":"pages/admin/pizzas/[id].html","/api/auth/login":"pages/api/auth/login.js","/api/auth/me":"pages/api/auth/me.js","/api/foods/[id]":"pages/api/foods/[id].js","/api/foods":"pages/api/foods.js","/api/health":"pages/api/health.js","/hakkimizda":"pages/hakkimizda.html","/iletisim":"pages/iletisim.html","/":"pages/index.html","/menu":"pages/menu.html","/api/upload":"pages/api/upload.js","/404":"pages/404.html"}
