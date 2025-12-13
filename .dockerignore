@@ -1,0 +1,58 @@
+# ===========================================
+# Iolo Pizza - Docker Ignore
+# ===========================================
+# Files to exclude from Docker build context
+
+# Dependencies (will be installed fresh in container)
+node_modules
+npm-debug.log
+
+# Build outputs
+.next
+out
+dist
+build
+
+# Environment files - CRITICAL: Never include in images
+.env
+.env.*
+*.env
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Documentation
+README.md
+*.md
+docs
+
+# Tests
+coverage
+.nyc_output
+__tests__
+*.test.*
+*.spec.*
+
+# CI/CD
+.github
+
+# Docker files (not needed in image)
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+*.tar
+*.zip

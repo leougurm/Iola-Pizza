@@ -17,7 +17,6 @@ const ScrollToTop = () => {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-
   if (router.pathname.startsWith('/admin')) {
     if (router.pathname === '/admin/login') {
       return <Component {...pageProps} />;

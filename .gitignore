@@ -1,3 +1,15 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build outputs
+dist
+dist-ssr
+.next
+out
+build
+
 # Logs
 logs
 *.log
@@ -7,18 +19,43 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Environment files - NEVER commit these
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
 
-# Editor directories and files
+# IDE and editor
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage
+*.lcov
+.nyc_output
+
+# Prisma
+/generated/prisma
+
+# Docker
+*.tar
+
+# OS
+*.local
+
+# Misc
+*.pem
+*.key
+*.crt
+.vercel
