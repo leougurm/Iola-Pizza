@@ -41,7 +41,7 @@ services:
   # Next.js Application
   # ===========================================
   app:
-    image: ghcr.io/${GITHUB_REPOSITORY}:latest
+    image: ghcr.io/${GITHUB_REPOSITORY_LOWERCASE}:latest
     container_name: iolo-pizza-app
     restart: unless-stopped
     ports:
