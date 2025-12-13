@@ -54,6 +54,14 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Install Prisma CLI with all dependencies (do this first as root)
+RUN npm install prisma dotenv
+
+# Copy Prisma files for migrations
+COPY --from=builder /app/prisma/schema.prisma ./prisma/schema.prisma
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -69,13 +77,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Create public folder for uploads
 RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs ./public
 
-# Copy Prisma files for migrations
-COPY --from=builder --chown=nextjs:nodejs /app/prisma/schema.prisma ./prisma/schema.prisma
-COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./prisma.config.ts
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
-
-# Install Prisma CLI with all dependencies
-RUN npm install prisma dotenv
+# Fix ownership for prisma files
+RUN chown -R nextjs:nodejs ./prisma ./node_modules
 
 # Switch to non-root user
 USER nextjs
