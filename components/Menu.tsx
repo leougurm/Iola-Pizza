@@ -383,9 +383,11 @@ const MenuCard: React.FC<{ item: Food }> = ({ item }) => {
           <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
             {CATEGORY_LABELS[item.category] || item.category}
           </span>
+          {/*
           <button className="text-brand-yellow font-semibold text-sm hover:text-white transition-colors">
             Detaylı Bilgi →
           </button>
+          */}
         </div>
       </div>
 
