@@ -56,7 +56,7 @@ export default async function handler(
 
     const urls = fileArray.map((file) => {
       const filename = path.basename(file.filepath);
-      return `${baseUrl}/uploads/${filename}`;
+      return `${baseUrl}/api/uploads/${filename}`;
     });
 
     return res.status(200).json({ urls });

@@ -16,6 +16,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.githubusercontent.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'iolo.ugurmuslim.com',
+      },
     ],
     // Disable image optimization in production if using external CDN
     unoptimized: process.env.NODE_ENV === 'production',

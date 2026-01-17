@@ -52,6 +52,8 @@ services:
       NODE_ENV: production
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
       JWT_SECRET: ${JWT_SECRET}
+    volumes:
+      - uploads_data:/app/public/uploads
     depends_on:
       postgres:
         condition: service_healthy
@@ -70,4 +72,6 @@ networks:
 
 volumes:
   postgres_data:
+    driver: local
+  uploads_data:
     driver: local
