@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { getToken } from '../../services/auth';
-import AdminLayout from '../../components/admin/AdminLayout';
-import PrivateRoute from '../../components/admin/PrivateRoute';
 import { Upload, Trash2, Save } from 'lucide-react';
 
 interface SiteSettings {
@@ -142,20 +140,14 @@ const AboutAdminPage: React.FC = () => {
 
   if (loading) {
     return (
-      <PrivateRoute>
-        <AdminLayout>
-          <div className="flex justify-center items-center h-64">
-            <div className="text-gray-400 text-lg">Yukleniyor...</div>
-          </div>
-        </AdminLayout>
-      </PrivateRoute>
+      <div className="flex justify-center items-center h-64">
+        <div className="text-gray-400 text-lg">Yukleniyor...</div>
+      </div>
     );
   }
 
   return (
-    <PrivateRoute>
-      <AdminLayout>
-        <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold text-white">Hakkimizda Sayfasi</h1>
           </div>
@@ -400,10 +392,8 @@ const AboutAdminPage: React.FC = () => {
                 {saving ? 'Kaydediliyor...' : 'Kaydet'}
               </button>
             </div>
-          </form>
-        </div>
-      </AdminLayout>
-    </PrivateRoute>
+      </form>
+    </div>
   );
 };
 

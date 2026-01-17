@@ -48,6 +48,7 @@ services:
     ports:
       - "3012:3000"
     environment:
+      NEXT_PUBLIC_BASE_URL: https://iolo.ugurmuslim.com
       NODE_ENV: production
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
       JWT_SECRET: ${JWT_SECRET}
