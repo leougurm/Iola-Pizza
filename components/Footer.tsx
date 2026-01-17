@@ -1,9 +1,48 @@
-import React from 'react';
-import { Instagram, Twitter, MapPin, Phone, Mail, ChefHat, ArrowUpRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Instagram, Twitter, Facebook, MapPin, Phone, Mail, ChefHat, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
+
+interface ContactSettings {
+  contactAddress: string;
+  contactPhone: string;
+  contactPhoneHours: string;
+  contactEmail: string;
+  contactInstagram: string | null;
+  contactTwitter: string | null;
+  contactFacebook: string | null;
+  contactMapUrl: string | null;
+}
+
+const DEFAULT_SETTINGS: ContactSettings = {
+  contactAddress: 'Mithatpasa Caddesi No: 35, Goztepe, Konak / Izmir',
+  contactPhone: '+90 232 555 35 35',
+  contactPhoneHours: 'Hergun 11:00 - 23:00 arasi',
+  contactEmail: 'info@iolopizza.com',
+  contactInstagram: null,
+  contactTwitter: null,
+  contactFacebook: null,
+  contactMapUrl: null,
+};
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const [settings, setSettings] = useState<ContactSettings>(DEFAULT_SETTINGS);
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => setSettings({
+        contactAddress: data.contactAddress || DEFAULT_SETTINGS.contactAddress,
+        contactPhone: data.contactPhone || DEFAULT_SETTINGS.contactPhone,
+        contactPhoneHours: data.contactPhoneHours || DEFAULT_SETTINGS.contactPhoneHours,
+        contactEmail: data.contactEmail || DEFAULT_SETTINGS.contactEmail,
+        contactInstagram: data.contactInstagram,
+        contactTwitter: data.contactTwitter,
+        contactFacebook: data.contactFacebook,
+        contactMapUrl: data.contactMapUrl,
+      }))
+      .catch(() => setSettings(DEFAULT_SETTINGS));
+  }, []);
 
   return (
     <footer className="relative bg-brand-dark pt-24 pb-8 overflow-hidden" id="contact">
@@ -35,18 +74,36 @@ const Footer: React.FC = () => {
               Lezzet tutkumuz hiç bitmedi.
             </p>
             <div className="flex gap-3">
-              <a
-                href="#"
-                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-red hover:border-brand-red transition-all group"
-              >
-                <Instagram size={18} className="text-gray-400 group-hover:text-white transition-colors" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-red hover:border-brand-red transition-all group"
-              >
-                <Twitter size={18} className="text-gray-400 group-hover:text-white transition-colors" />
-              </a>
+              {settings.contactInstagram && (
+                <a
+                  href={settings.contactInstagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-red hover:border-brand-red transition-all group"
+                >
+                  <Instagram size={18} className="text-gray-400 group-hover:text-white transition-colors" />
+                </a>
+              )}
+              {settings.contactTwitter && (
+                <a
+                  href={settings.contactTwitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-red hover:border-brand-red transition-all group"
+                >
+                  <Twitter size={18} className="text-gray-400 group-hover:text-white transition-colors" />
+                </a>
+              )}
+              {settings.contactFacebook && (
+                <a
+                  href={settings.contactFacebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-brand-red hover:border-brand-red transition-all group"
+                >
+                  <Facebook size={18} className="text-gray-400 group-hover:text-white transition-colors" />
+                </a>
+              )}
             </div>
           </div>
 
@@ -84,35 +141,39 @@ const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-4">
               <li>
-                <a href="#" className="flex items-start gap-4 group">
+                <a
+                  href={settings.contactMapUrl || '#'}
+                  target={settings.contactMapUrl ? '_blank' : undefined}
+                  rel={settings.contactMapUrl ? 'noopener noreferrer' : undefined}
+                  className="flex items-start gap-4 group"
+                >
                   <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:border-brand-red/50 transition-colors">
                     <MapPin size={18} className="text-brand-red" />
                   </div>
                   <div>
                     <span className="text-gray-400 text-sm group-hover:text-white transition-colors block">
-                      Mithatpaşa Cad. No: 35
+                      {settings.contactAddress}
                     </span>
-                    <span className="text-gray-500 text-sm">Göztepe, İzmir</span>
                   </div>
                 </a>
               </li>
               <li>
-                <a href="tel:+902325553535" className="flex items-center gap-4 group">
+                <a href={`tel:${settings.contactPhone.replace(/\s/g, '')}`} className="flex items-center gap-4 group">
                   <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:border-brand-red/50 transition-colors">
                     <Phone size={18} className="text-brand-red" />
                   </div>
                   <span className="text-gray-400 text-sm group-hover:text-white transition-colors">
-                    +90 232 555 35 35
+                    {settings.contactPhone}
                   </span>
                 </a>
               </li>
               <li>
-                <a href="mailto:info@iolopizza.com" className="flex items-center gap-4 group">
+                <a href={`mailto:${settings.contactEmail}`} className="flex items-center gap-4 group">
                   <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:border-brand-red/50 transition-colors">
                     <Mail size={18} className="text-brand-red" />
                   </div>
                   <span className="text-gray-400 text-sm group-hover:text-white transition-colors">
-                    info@iolopizza.com
+                    {settings.contactEmail}
                   </span>
                 </a>
               </li>
