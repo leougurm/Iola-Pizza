@@ -49,9 +49,13 @@ export default async function handler(
     const uploadedFiles = files.images || files.image || [];
     const fileArray = Array.isArray(uploadedFiles) ? uploadedFiles : [uploadedFiles];
 
+    // Get base URL from env or construct from request headers
+    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const host = req.headers['x-forwarded-host'] || req.headers.host || 'localhost:3000';
+    const baseUrl = process.env.BASE_URL || `${protocol}://${host}`;
+
     const urls = fileArray.map((file) => {
       const filename = path.basename(file.filepath);
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
       return `${baseUrl}/uploads/${filename}`;
     });
 
