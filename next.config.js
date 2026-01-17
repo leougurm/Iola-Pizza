@@ -25,6 +25,16 @@ const nextConfig = {
     unoptimized: process.env.NODE_ENV === 'production',
   },
 
+  // Rewrite /uploads/* to /api/uploads/* for backward compatibility
+  async rewrites() {
+    return [
+      {
+        source: '/uploads/:path*',
+        destination: '/api/uploads/:path*',
+      },
+    ];
+  },
+
   // Security headers
   async headers() {
     return [
