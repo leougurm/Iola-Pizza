@@ -59,4 +59,7 @@ coverage
 *.key
 *.crt
 .vercel
-public
+
+# Public uploads (user uploaded files, not tracked)
+public/uploads/*
+!public/uploads/.gitkeep
