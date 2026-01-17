@@ -1,7 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, Instagram, Facebook, Twitter } from 'lucide-react';
 
+interface ContactSettings {
+  contactAddress: string;
+  contactPhone: string;
+  contactPhoneHours: string;
+  contactEmail: string;
+  contactInstagram: string | null;
+  contactTwitter: string | null;
+  contactFacebook: string | null;
+  contactMapUrl: string | null;
+}
+
+const DEFAULT_SETTINGS: ContactSettings = {
+  contactAddress: 'Mithatpasa Caddesi No: 35, Goztepe, Konak / Izmir',
+  contactPhone: '+90 232 555 35 35',
+  contactPhoneHours: 'Hergun 11:00 - 23:00 arasi',
+  contactEmail: 'info@iolopizza.com',
+  contactInstagram: null,
+  contactTwitter: null,
+  contactFacebook: null,
+  contactMapUrl: null,
+};
+
 const ContactPage: React.FC = () => {
+  const [settings, setSettings] = useState<ContactSettings>(DEFAULT_SETTINGS);
+
+  useEffect(() => {
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => setSettings({
+        contactAddress: data.contactAddress || DEFAULT_SETTINGS.contactAddress,
+        contactPhone: data.contactPhone || DEFAULT_SETTINGS.contactPhone,
+        contactPhoneHours: data.contactPhoneHours || DEFAULT_SETTINGS.contactPhoneHours,
+        contactEmail: data.contactEmail || DEFAULT_SETTINGS.contactEmail,
+        contactInstagram: data.contactInstagram,
+        contactTwitter: data.contactTwitter,
+        contactFacebook: data.contactFacebook,
+        contactMapUrl: data.contactMapUrl,
+      }))
+      .catch(() => setSettings(DEFAULT_SETTINGS));
+  }, []);
+
   return (
     <div className="pt-20 bg-brand-dark min-h-screen text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -25,7 +65,7 @@ const ContactPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg mb-1">Adres</h3>
-                    <p className="text-gray-300">Mithatpaşa Caddesi No: 35<br />Göztepe, Konak / İzmir</p>
+                    <p className="text-gray-300">{settings.contactAddress}</p>
                   </div>
                 </div>
 
@@ -35,8 +75,8 @@ const ContactPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg mb-1">Telefon</h3>
-                    <p className="text-gray-300">+90 232 555 35 35</p>
-                    <p className="text-sm text-gray-500">Hergün 11:00 - 23:00 arası</p>
+                    <p className="text-gray-300">{settings.contactPhone}</p>
+                    <p className="text-sm text-gray-500">{settings.contactPhoneHours}</p>
                   </div>
                 </div>
 
@@ -46,35 +86,55 @@ const ContactPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg mb-1">E-Posta</h3>
-                    <p className="text-gray-300">info@iolopizza.com</p>
+                    <p className="text-gray-300">{settings.contactEmail}</p>
                   </div>
                 </div>
               </div>
 
               <div className="mt-8 pt-8 border-t border-white/10 flex gap-4">
-                 <button className="flex-1 bg-white/10 hover:bg-brand-red py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
-                   <Instagram size={20} /> Instagram
-                 </button>
-                 <button className="flex-1 bg-white/10 hover:bg-brand-red py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
-                   <Twitter size={20} /> Twitter
-                 </button>
-                 <button className="flex-1 bg-white/10 hover:bg-brand-red py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
-                   <Facebook size={20} /> Facebook
-                 </button>
+                 {settings.contactInstagram && (
+                   <a href={settings.contactInstagram} target="_blank" rel="noopener noreferrer" className="flex-1 bg-white/10 hover:bg-brand-red py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                     <Instagram size={20} /> Instagram
+                   </a>
+                 )}
+                 {settings.contactTwitter && (
+                   <a href={settings.contactTwitter} target="_blank" rel="noopener noreferrer" className="flex-1 bg-white/10 hover:bg-brand-red py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                     <Twitter size={20} /> Twitter
+                   </a>
+                 )}
+                 {settings.contactFacebook && (
+                   <a href={settings.contactFacebook} target="_blank" rel="noopener noreferrer" className="flex-1 bg-white/10 hover:bg-brand-red py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                     <Facebook size={20} /> Facebook
+                   </a>
+                 )}
+                 {!settings.contactInstagram && !settings.contactTwitter && !settings.contactFacebook && (
+                   <p className="text-gray-500 text-sm w-full text-center">Sosyal medya hesaplari yakilnda eklenecek</p>
+                 )}
               </div>
             </div>
 
-            {/* Map Image Placeholder */}
+            {/* Map Section */}
             <div className="rounded-2xl overflow-hidden h-64 border border-white/10 relative group">
-                <img 
-                    src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80" 
-                    alt="Map Location" 
+                <img
+                    src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80"
+                    alt="Map Location"
                     className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <button className="bg-brand-red px-6 py-2 rounded-full font-bold shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
-                        <MapPin size={18} /> Haritada Göster
-                    </button>
+                    {settings.contactMapUrl ? (
+                      <a
+                        href={settings.contactMapUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-brand-red px-6 py-2 rounded-full font-bold shadow-lg hover:scale-105 transition-transform flex items-center gap-2"
+                      >
+                        <MapPin size={18} /> Haritada Goster
+                      </a>
+                    ) : (
+                      <button className="bg-brand-red px-6 py-2 rounded-full font-bold shadow-lg hover:scale-105 transition-transform flex items-center gap-2">
+                        <MapPin size={18} /> Haritada Goster
+                      </button>
+                    )}
                 </div>
             </div>
           </div>

@@ -103,7 +103,7 @@ jobs:
             cd /var/www/iolo-pizza
 
             # Rename compose file
-            mv docker-compose.prod.yml docker-compose.yml 2>/dev/null || true
+            mv docker-compose.prod.y  ml docker-compose.yml 2>/dev/null || true
 
             # Login to GitHub Container Registry
             echo "$GHCR_TOKEN" | docker login ghcr.io -u ${{ github.actor }} --password-stdin

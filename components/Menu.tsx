@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Flame, Leaf, Search, SlidersHorizontal } from 'lucide-react';
+import { Flame, Leaf, Search, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Food {
   id: string;
@@ -278,28 +278,56 @@ const MenuCard: React.FC<{ item: Food }> = ({ item }) => {
         <img
           src={mainImage}
           alt={item.name}
-          className="w-full h-full object-cover opacity-90 group-hover:opacity-100"
+          className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
         />
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent"></div>
 
-        {/* Image navigation dots */}
+        {/* Image slider controls */}
         {hasMultipleImages && (
-          <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex gap-1.5">
-            {item.images.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCurrentImageIndex(idx);
-                }}
-                className={`h-1.5 rounded-full transition-all ${
-                  idx === currentImageIndex ? 'bg-white w-4' : 'bg-white/40 w-1.5 hover:bg-white/60'
-                }`}
-              />
-            ))}
-          </div>
+          <>
+            {/* Arrow buttons */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentImageIndex((prev) => (prev === 0 ? item.images.length - 1 : prev - 1));
+              }}
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/50 hover:bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrentImageIndex((prev) => (prev === item.images.length - 1 ? 0 : prev + 1));
+              }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/50 hover:bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            >
+              <ChevronRight size={18} />
+            </button>
+
+            {/* Image counter badge */}
+            <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-sm px-2 py-1 rounded-full text-white text-xs font-medium">
+              {currentImageIndex + 1} / {item.images.length}
+            </div>
+
+            {/* Navigation dots */}
+            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+              {item.images.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentImageIndex(idx);
+                  }}
+                  className={`h-1.5 rounded-full transition-all ${
+                    idx === currentImageIndex ? 'bg-white w-4' : 'bg-white/40 w-1.5 hover:bg-white/60'
+                  }`}
+                />
+              ))}
+            </div>
+          </>
         )}
 
         {/* Tags */}

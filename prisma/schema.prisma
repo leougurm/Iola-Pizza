@@ -41,3 +41,29 @@ enum Category {
   DESSERT
   SIDE
 }
+
+model SiteSettings {
+  id                String   @id @default("about")
+  // About page fields
+  aboutTitle        String   @default("Hikayemiz")
+  aboutSubtitle     String   @default("Erhan Usta'nın Lezzet Yolculuğu")
+  aboutDescription  String   @default("2010 yılında İzmir Göztepe'de küçük bir dükkanda başlayan serüvenimiz, Erhan Usta'nın tutkusuyla bugün şehrin en sevilen pizza durağı haline geldi.")
+  feature1Title     String   @default("Taş Fırın Lezzeti")
+  feature1Desc      String   @default("Pizzalarımız, meşe odunuyla ısıtılan özel taş fırınımızda, 400 derecede pişer.")
+  feature2Title     String   @default("72 Saat Mayalanma")
+  feature2Desc      String   @default("Hamurumuz özel un karışımıyla hazırlanır ve sindirimi kolaylaştırmak için en az 72 saat soğuk mayalanır.")
+  feature3Title     String   @default("100% Yerli ve Doğal")
+  feature3Desc      String   @default("Soslarımızda Çanakkale domatesleri, üzerlerinde ise yerel üreticilerden aldığımız taze peynirler kullanılır.")
+  aboutImage1       String?
+  aboutImage2       String?
+  // Contact page fields
+  contactAddress    String   @default("Mithatpaşa Caddesi No: 35, Göztepe, Konak / İzmir")
+  contactPhone      String   @default("+90 232 555 35 35")
+  contactPhoneHours String   @default("Hergün 11:00 - 23:00 arası")
+  contactEmail      String   @default("info@iolopizza.com")
+  contactInstagram  String?
+  contactTwitter    String?
+  contactFacebook   String?
+  contactMapUrl     String?
+  updatedAt         DateTime @updatedAt
+}

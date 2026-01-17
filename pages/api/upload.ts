@@ -51,7 +51,8 @@ export default async function handler(
 
     const urls = fileArray.map((file) => {
       const filename = path.basename(file.filepath);
-      return `/uploads/${filename}`;
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+      return `${baseUrl}/uploads/${filename}`;
     });
 
     return res.status(200).json({ urls });
